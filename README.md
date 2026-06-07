@@ -85,14 +85,14 @@ Aplikasi manajemen bahan makanan dan asisten koki pintar berbasis AI menggunakan
 
 ```text
 composeApp/src/
-├── commonMain/kotlin/com/example/cooknote/
-│   ├── core/                      # Core utilities
+├── commonMain/kotlin/com/example/noteai/      # Root package aplikasi
+│   ├── core/                      # Core utilities & DI
 │   ├── data/                      # Data layer (SQLDelight, Ktor, Repository Impl)
-│   ├── domain/                    # Domain layer (Models: PantryItem, Recipe, UseCases)
+│   ├── domain/                    # Domain layer (Models, UseCases, Repository Interfaces)
 │   └── presentation/              # Presentation layer (UI, Navigation, ViewModels)
-├── commonMain/sqldelight/         # SQLDelight schema (PantryEntity)
-├── androidMain/kotlin/            # Android-specific (expect/actual)
-└── iosMain/kotlin/                # iOS-specific (expect/actual)
+├── commonMain/sqldelight/         # SQLDelight schema (.sq files)
+├── androidMain/kotlin/            # Android-specific code
+└── iosMain/kotlin/                # iOS-specific code
 ```
 
 ## 🚀 Getting Started
@@ -130,6 +130,45 @@ composeApp/src/
    ./gradlew :composeApp:assembleDebug   # build APK debug saja
    ```
 
+## 🧪 Testing Guide
+
+Aplikasi ini dilengkapi dengan pengujian otomatis untuk menjamin stabilitas fitur.
+
+### 1. Unit Testing (Tepat 15 Tests)
+Menguji logika bisnis pada layer Repository dan ViewModel (Common Code).
+- **Lokasi File:** `composeApp/src/commonTest/kotlin/com/example/noteai/`
+- **Cara Menjalankan via Android Studio:** Klik kanan folder `commonTest/kotlin` -> Pilih **Run 'Tests in noteai'**.
+- **Cara Menjalankan via Terminal:** `./gradlew :composeApp:testDebugUnitTest`
+
+**Daftar Unit Tests:**
+1. `insertNote` - Menambah catatan ke database lokal.
+2. `searchNotes` - Pencarian catatan berdasarkan judul.
+3. `deleteNote` - Penghapusan catatan.
+4. `registerUser` - Alur pendaftaran akun pengguna.
+5. `loginUser` - Verifikasi login dengan kredensial benar.
+6. `logoutUser` - Penghapusan sesi pengguna.
+7. `initialRecipesState` - Memastikan list resep awal kosong.
+8. `saveRecipe` - Menyimpan resep baru ke database.
+9. `filterFavoriteRecipes` - Filter resep favorit.
+10. `initialPantryItems` - Memastikan pantry awal kosong.
+11. `searchPantry` - Mencari bahan makanan di inventory.
+12. `categoryFilterPantry` - Filter kategori bahan dapur.
+13. `initialChatState` - Verifikasi pesan pembuka AI Chef.
+14. `chatInputUpdate` - Perubahan state teks saat mengetik.
+15. `chatSendMessage` - Alur kirim pesan dan pembersihan input.
+
+### 2. UI Testing (5 Tests)
+Menguji alur aplikasi secara visual pada Emulator/Device Android.
+- **Lokasi File:** `composeApp/src/androidInstrumentedTest/kotlin/com/example/noteai/AppUiTest.kt`
+- **Cara Menjalankan via Terminal:** `./gradlew :composeApp:connectedDebugAndroidTest`
+
+**Daftar UI Tests:**
+1. `testLoginFlow` - Uji input login dan tombol masuk.
+2. `testNavigationBetweenTabs` - Uji navigasi antar menu utama.
+3. `testAddPantryItemFlow` - Uji alur tambah bahan makanan baru.
+4. `testRecipeClickNavigation` - Uji klik resep menuju detail.
+5. `testProfileDisplay` - Uji tampilan nama & email user di profil.
+
 ## 📝 Tugas Mahasiswa (Sprint Plan)
 
 ### Sprint 1: Foundation
@@ -139,19 +178,20 @@ composeApp/src/
 - [x] Update README identitas dan rancangan proyek
 
 ### Sprint 2: Core Features
-- [ ] Tambahkan domain model baru (`PantryItem` & `Recipe`)
-- [ ] Implementasi fitur CRUD bahan makanan
-- [ ] Implementasi local storage SQLite (SQLDelight) untuk bahan
+- [x] Tambahkan domain model baru (`PantryItem` & `Recipe`)
+- [x] Implementasi fitur CRUD bahan makanan
+- [x] Implementasi local storage SQLite (SQLDelight) untuk bahan
 
 ### Sprint 3: Advanced Features
-- [ ] Implementasi search bahan makanan dengan debounce
-- [ ] Tambahkan filter kategori bahan (Sayur, Protein, Bumbu, dll)
-- [ ] Implementasi offline-first (menyimpan resep favorit lokal)
+- [x] Implementasi search bahan makanan dengan debounce
+- [x] Tambahkan filter kategori bahan (Sayur, Protein, Bumbu, dll)
+- [x] Implementasi offline-first (menyimpan resep favorit lokal)
+- [x] Sistem Login & Halaman Profil Terintegrasi
 
 ### Sprint 4: AI & Polish
-- [ ] Integrasikan fitur "Generate Resep dari Bahan" menggunakan Gemini API
-- [ ] Parsing hasil AI menjadi teks instruksi memasak yang mudah dibaca awam
-- [ ] UI polish, animasi, dan unit tests
+- [x] Integrasikan fitur "Generate Resep dari Bahan" menggunakan Gemini API
+- [x] UI polish (consistent design, dropdown category, detail resep)
+- [x] Pengujian Otomatis (15 Unit Tests & 5 UI Tests)
 
 ### Sprint 5: Final
 - [ ] Bug fixes
