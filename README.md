@@ -138,7 +138,6 @@ Aplikasi ini dilengkapi dengan pengujian otomatis untuk menjamin stabilitas fitu
 Menguji logika bisnis pada layer Repository dan ViewModel (Common Code).
 - **Lokasi File:** `composeApp/src/commonTest/kotlin/com/example/noteai/`
 - **Cara Menjalankan via Android Studio:** Klik kanan folder `commonTest/kotlin` -> Pilih **Run 'Tests in noteai'**.
-- **Cara Menjalankan via Terminal:** `./gradlew :composeApp:testDebugUnitTest`
 
 **Daftar Unit Tests:**
 1. `insertNote` - Menambah catatan ke database lokal.
@@ -160,7 +159,7 @@ Menguji logika bisnis pada layer Repository dan ViewModel (Common Code).
 ### 2. UI Testing (5 Tests)
 Menguji alur aplikasi secara visual pada Emulator/Device Android.
 - **Lokasi File:** `composeApp/src/androidInstrumentedTest/kotlin/com/example/noteai/AppUiTest.kt`
-- **Cara Menjalankan via Terminal:** `./gradlew :composeApp:connectedDebugAndroidTest`
+
 
 **Daftar UI Tests:**
 1. `testLoginFlow` - Uji input login dan tombol masuk.
@@ -189,9 +188,9 @@ Menguji alur aplikasi secara visual pada Emulator/Device Android.
 - [x] Sistem Login & Halaman Profil Terintegrasi
 
 ### Sprint 4: AI & Polish
-- [x] Integrasikan fitur "Generate Resep dari Bahan" menggunakan Gemini API
+- [] Integrasikan fitur "Generate Resep dari Bahan" menggunakan Gemini API
 - [x] UI polish (consistent design, dropdown category, detail resep)
-- [x] Pengujian Otomatis (15 Unit Tests & 5 UI Tests)
+- [] Pengujian Otomatis (15 Unit Tests & 5 UI Tests)
 
 ### Sprint 5: Final
 - [ ] Bug fixes
