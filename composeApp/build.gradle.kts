@@ -78,6 +78,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.sqldelight.android.driver)
+            implementation(libs.androidx.core.splashscreen)
         }
 
         val androidUnitTest by getting {

@@ -1,38 +1,37 @@
 package com.example.noteai.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.noteai.domain.repository.UserRepository
 import com.example.noteai.presentation.screens.MainScreen
 import com.example.noteai.presentation.screens.auth.AuthScreen
 import com.example.noteai.presentation.screens.recipe.AddEditRecipeScreen
 import com.example.noteai.presentation.screens.recipe.RecipeDetailScreen
-import org.koin.compose.koinInject
+import com.example.noteai.presentation.screens.splash.SplashScreen
 
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier,
-    userRepository: UserRepository = koinInject()
+    modifier: Modifier = Modifier
 ) {
     val navigationActions = createNavigationActions(navController)
-    val currentUser by userRepository.getCurrentUser().collectAsState(initial = null)
-    
-    // Determine start destination based on login status
-    val startDestination = if (currentUser != null) Route.Chat else Route.Auth
 
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = Route.Splash,
         modifier = modifier
     ) {
+        composable<Route.Splash> {
+            SplashScreen(
+                onNavigateToMain = { navigationActions.navigateToChat() },
+                onNavigateToAuth = { navigationActions.navigateToAuth() }
+            )
+        }
+
         composable<Route.Auth> {
             AuthScreen(
                 onAuthSuccess = {
@@ -72,15 +71,21 @@ fun AppNavHost(
 
 private fun createNavigationActions(navController: NavHostController): NavigationActions {
     return object : NavigationActions {
+        override fun navigateToSplash() {
+            navController.navigate(Route.Splash) {
+                popUpTo(0) { inclusive = true }
+            }
+        }
+
         override fun navigateToAuth() {
             navController.navigate(Route.Auth) {
-                popUpTo(0) { inclusive = true }
+                popUpTo(Route.Splash) { inclusive = true }
             }
         }
 
         override fun navigateToChat() {
             navController.navigate(Route.Chat) {
-                popUpTo(Route.Auth) { inclusive = true }
+                popUpTo(Route.Splash) { inclusive = true }
             }
         }
         
@@ -107,6 +112,7 @@ private fun createNavigationActions(navController: NavHostController): Navigatio
 }
 
 interface NavigationActions {
+    fun navigateToSplash()
     fun navigateToAuth()
     fun navigateToChat()
     fun navigateToPantry()
