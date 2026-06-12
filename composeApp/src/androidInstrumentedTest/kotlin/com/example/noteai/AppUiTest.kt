@@ -7,7 +7,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4)
+@RunWith(AndroidJUnit4::class)
 class AppUiTest {
 
     @get:Rule
